@@ -1,4 +1,5 @@
 <project>
+  <property file="./build.properties" />
   <property name="sdk.dir" location="../../../tools/appengine"/>
   <property name="shared.dir" location="../../../tools/sdk"/>
 
@@ -23,6 +24,9 @@
         <include name="**/*.jar"/>
       </fileset>
       <fileset dir="${shared.dir}/lib">
+        <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${gwt.home}">
         <include name="**/*.jar"/>
       </fileset>
     </copy>
@@ -51,6 +55,40 @@
   <target name="runserver" depends="datanucleusenhance"
           description="Starts the development server.">
     <dev_appserver war="war"/>
+  </target>
+
+  <!-- copied from appengine demo -->
+
+  <macrodef name="compile.gwtc">
+    <attribute name="module" />
+    <attribute name="srcdir" default="src" />
+    <attribute name="wardir" />
+    <attribute name="classpathref" />
+    <sequential>
+      <java dir="@{srcdir}"
+          classname="com.google.gwt.dev.Compiler"
+          classpathref="@{classpathref}"
+          fork="yes"
+          failonerror="true">
+        <jvmarg value="-Xmx512M"/>
+        <arg value="-war" />
+        <arg file="@{wardir}" />
+        <arg value="@{module}" />
+      </java>
+    </sequential>
+  </macrodef>
+
+  <path id="frontend.classpath">
+    <pathelement path="src" />
+    <fileset file="${gwt.home}/gwt-user.jar" />
+    <fileset file="${gwt.home}/gwt-dev.jar" />
+  </path>  
+
+  <target name="compile.frontend">
+    <compile.gwtc module="com.appspot.evetool.Evetool"
+        srcdir="src"
+        wardir="war"
+        classpathref="frontend.classpath" />
   </target>
 
 </project>

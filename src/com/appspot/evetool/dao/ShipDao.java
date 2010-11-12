@@ -31,4 +31,13 @@ public class ShipDao {
       query.closeAll();
     }
   }
+
+  public List<Ship> getAll(PersistenceManager pm) {
+    Query query = pm.newQuery(Ship.class);
+    try {
+      return (List<Ship>) query.execute();
+    } finally {
+      query.closeAll();
+    }
+  }
 }
