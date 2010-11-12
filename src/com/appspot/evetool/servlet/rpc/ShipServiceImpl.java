@@ -39,7 +39,7 @@ public class ShipServiceImpl extends RemoteServiceServlet implements ShipService
     List<ShipProxy> shipProxies = new ArrayList<ShipProxy>();
     try {
       for (Ship ship : shipDao.getAll(pm)) {
-        shipProxies.add(new ShipProxy(ship.getName()));
+        shipProxies.add(new ShipProxy(ship.getGameId(), ship.getName()));
       }
     } catch (Exception e) {
       log.log(Level.SEVERE, "Ship dao error", e);

@@ -10,11 +10,13 @@ import java.io.Serializable;
  */
 public class ShipProxy implements Serializable {
   private String name;
+  private String gameId;
 
   public ShipProxy() {
   }
 
-  public ShipProxy(String name) {
+  public ShipProxy(String gameId, String name) {
+    this.gameId = gameId;
     this.name = name;
   }
 
@@ -24,5 +26,13 @@ public class ShipProxy implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getGameId() {
+    return gameId;
+  }
+
+  public void setGameId(String gameId) {
+    this.gameId = gameId;
   }
 }

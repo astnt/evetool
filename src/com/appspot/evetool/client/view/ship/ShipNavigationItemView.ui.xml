@@ -1,0 +1,23 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    >
+  <ui:style>
+    .item {
+      position: relative;
+    }
+    .item img {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .item span {
+      margin-left: 40px;
+    }
+  </ui:style>
+  <g:HTMLPanel styleName="{style.item}">
+    <div>
+      <img src="" alt="" ui:field="icon" />
+      <span ui:field="name"></span>
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

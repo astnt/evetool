@@ -51,7 +51,7 @@ public class ShipNavigationView extends Composite {
 
   private ShipServiceAsync shipService = GWT.create(ShipService.class);
 
-  public ShipNavigationView(String... names) {
+  public ShipNavigationView() {
     initWidget(binder.createAndBindUi(this));
     for (int i = 0; i < tabs.getChildCount(); i++) {
       Node node = tabs.getChildNodes().getItem(i);
@@ -82,7 +82,8 @@ public class ShipNavigationView extends Composite {
         for (ShipProxy shipProxy : shipProxies) {
           Element nextElement = findNextElement(content.getFirstChild());
           removeChild(nextElement);
-          nextElement.appendChild(content.getOwnerDocument().createTextNode(shipProxy.getName()));
+//          nextElement.appendChild(content.getOwnerDocument().createTextNode(shipProxy.getName()));
+          nextElement.appendChild(new ShipNavigationItemView(shipProxy).getElement());
         }
       }
     });

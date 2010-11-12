@@ -102,6 +102,7 @@
       <jvmarg value="-Xmx256M"/>
       <arg value="-startupUrl"/>
       <arg value="index.html"/>
+      <arg value="-noserver"/>
       <arg value="-port"/>
       <arg value="8080"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
