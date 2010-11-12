@@ -17,6 +17,6 @@
   </filter-mapping>
 
   <listener>
-    <listener-class>com.appspot.warandmilitary.listener.WarAndMilitaryListener</listener-class>
+    <listener-class>com.appspot.evetool.listener.WarAndMilitaryListener</listener-class>
   </listener>
 </web-app>

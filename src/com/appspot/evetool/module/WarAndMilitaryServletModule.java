@@ -1,8 +1,11 @@
-package com.appspot.warandmilitary.module;
+package com.appspot.evetool.module;
 
-import com.appspot.warandmilitary.LoginServlet;
-import com.appspot.warandmilitary.StatusServlet;
-import com.appspot.warandmilitary.servlet.GuiceTestServlet;
+import com.appspot.evetool.LoginServlet;
+import com.appspot.evetool.StatusServlet;
+import com.appspot.evetool.servlet.GuiceTestServlet;
+import com.appspot.evetool.servlet.TestActionServlet;
+import com.appspot.evetool.servlet.images.ShipImagesServlet;
+import com.appspot.evetool.upload.ShipsUploadServlet;
 import com.google.inject.servlet.ServletModule;
 import org.example.HelloAppEngineServlet;
 
@@ -18,5 +21,8 @@ public class WarAndMilitaryServletModule extends ServletModule {
     serve("/status").with(StatusServlet.class);
     serve("/helloappengine").with(HelloAppEngineServlet.class);
     serve("/guicetest").with(GuiceTestServlet.class);
+    serve("/upload/ships").with(ShipsUploadServlet.class);
+    serve("/test/add").with(TestActionServlet.class);
+    serve("/images/ship*").with(ShipImagesServlet.class);
   }
 }

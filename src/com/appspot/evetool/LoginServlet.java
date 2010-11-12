@@ -1,4 +1,4 @@
-package com.appspot.warandmilitary;
+package com.appspot.evetool;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -13,20 +13,23 @@ import java.io.IOException;
 /**
  * Created by IntelliJ IDEA.
  * User: ast
- * Date: Feb 16, 2010
- * Time: 9:02:59 PM
+ * Date: Feb 14, 2010
+ * Time: 10:04:19 AM
  */
 @Singleton
-public class StatusServlet extends HttpServlet {
-  public static final String PATH = "/status";
-
+public class LoginServlet extends HttpServlet {
+  public static final String PATH = "/login";
+  
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
-    if (user == null) {
-      response.sendRedirect(LoginServlet.PATH);
+
+    if (user != null) {
+      response.setContentType("text/plain");
+      response.getWriter().println("Hello, " + user.getNickname());
+    } else {
+      response.sendRedirect(userService.createLoginURL(request.getRequestURI()));
     }
-    response.getWriter().append(this.getClass().getCanonicalName());
   }
 }

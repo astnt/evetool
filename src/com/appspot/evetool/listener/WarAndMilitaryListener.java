@@ -1,6 +1,6 @@
-package com.appspot.warandmilitary.listener;
+package com.appspot.evetool.listener;
 
-import com.appspot.warandmilitary.module.WarAndMilitaryServletModule;
+import com.appspot.evetool.module.WarAndMilitaryServletModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
