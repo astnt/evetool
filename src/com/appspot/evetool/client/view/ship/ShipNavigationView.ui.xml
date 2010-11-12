@@ -1,8 +1,128 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    >
+  <ui:style type="com.appspot.evetool.client.view.ship.ShipNavigationView.MyStyle">
+    .content dl {
+      position:relative;
+      width:95%;
+      margin-bottom:0;
+    }
+    .content dl dt {
+      position:absolute;
+      top:0; left:0;
+      width:20%;
+    }
+    .content dl dd {
+      margin-left:22%;
+      margin-bottom:1em;
+    }
 
-  <g:HTMLPanel>
-    Hello, <g:ListBox ui:field='listBox' visibleItemCount='1'/>.
+    .tabs {
+      width:100%;
+      overflow:hidden;
+      margin: 0;
+      zoom:1;
+      padding:1px;
+      position:relative;
+    }
+
+    .tabs dt.tab {
+      float:left;
+      line-height:2;
+      height:2em;
+      background:#e8f0f5;
+      border:1px solid silver;
+      border-bottom:0;
+      padding:0 1em;
+      position:relative;
+      left:35px;
+      margin-right:1px;
+      cursor:pointer;
+
+      -webkit-border-top-left-radius:10px;
+      -webkit-border-top-right-radius:10px;
+      -moz-border-radius-topleft:10px;
+      -moz-border-radius-topright:10px;
+    }
+
+    .tabs dt.tab:hover {
+      background-color:#bfdff4;
+    }
+
+    .tabs dt.tab.selected {
+      border-color:#b0d0e9;
+      background:#fff;
+      z-index:3;
+      cursor:auto;
+    }
+
+    .tabs dd.content-leaf {
+      background:#fff;
+      display:none;
+      float:right;
+      width:100%;
+      margin:2em 0 0 -100%;
+      position:relative;
+      z-index:2;
+    }
+
+    .tabs dd.selected {
+      display:block;
+    }
+
+    .tabs .tab-content {
+      border:1px solid silver;
+      padding:20px;
+
+      -webkit-border-radius:20px;
+      -moz-border-radius:20px;
+    }
+
+    .large {
+      width:50%;
+    }
+    .textEdit {
+      width:100%;
+    }
+    .label {
+      text-align:left;
+    }
+
+    .disabled {
+      display:none;
+    }
+  </ui:style>
+  <g:HTMLPanel styleName="{style.tabs}">
+    <dl class="{style.tabs}" ui:field="tabs">
+
+      <dt class="{style.tab}">Amarr</dt>
+      <dd class="{style.content-leaf}">
+        <div class="{style.tab-content} {style.content}">
+          layout 1
+        </div>
+      </dd>
+
+      <dt class="{style.tab}">Caldari</dt>
+      <dd class="{style.content-leaf}">
+        <div class="{style.tab-content}">
+          layout 2
+        </div>
+      </dd>
+
+      <dt class="{style.tab}">Gallente</dt>
+      <dd class="{style.content-leaf}">
+        <div class="{style.tab-content}">
+          layout 3
+        </div>
+      </dd>
+
+      <dt class="{style.tab}">Minmatar</dt>
+      <dd class="{style.content-leaf}">
+        <div class="{style.tab-content}">
+          layout 4
+        </div>
+      </dd>
+      
+    </dl>
   </g:HTMLPanel>
-
 </ui:UiBinder>

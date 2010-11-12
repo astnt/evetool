@@ -19,10 +19,14 @@ public class Main implements EntryPoint {
   @Override
   public void onModuleLoad() {
     final RootPanel panel = RootPanel.get();
+    ShipNavigationView shipNavigationView = new ShipNavigationView();
+    panel.add(shipNavigationView);
+  }
+
+  private void sample1(final RootPanel panel) {
     shipService.getShips(new String[0], new AsyncCallback<List<ShipProxy>>() {
       @Override
       public void onFailure(Throwable throwable) {
-        //To change body of implemented methods use File | Settings | File Templates.
       }
       @Override
       public void onSuccess(List<ShipProxy> shipProxies) {

@@ -74,6 +74,8 @@
         <arg value="-war" />
         <arg file="@{wardir}" />
         <arg value="@{module}" />
+        <arg value="-localWorkers"/>
+        <arg value="${gwtc.workers}"/>
       </java>
     </sequential>
   </macrodef>
