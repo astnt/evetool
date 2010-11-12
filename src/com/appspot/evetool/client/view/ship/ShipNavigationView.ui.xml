@@ -29,20 +29,19 @@
     .tabs dt.tab {
       float:left;
       line-height:2;
-      height:2em;
-      background:#e8f0f5;
+      height:10em;
       border:1px solid silver;
-      border-bottom:0;
+      /* border-bottom:0; */
       padding:0 1em;
       position:relative;
       left:35px;
       margin-right:1px;
       cursor:pointer;
 
-      -webkit-border-top-left-radius:10px;
-      -webkit-border-top-right-radius:10px;
-      -moz-border-radius-topleft:10px;
-      -moz-border-radius-topright:10px;
+      -webkit-border-top-left-radius:3px;
+      -webkit-border-top-right-radius:3px;
+      -moz-border-radius-topleft:3px;
+      -moz-border-radius-topright:3px;
     }
 
     .tabs dt.tab:hover {
@@ -50,10 +49,11 @@
     }
 
     .tabs dt.tab.selected {
-      border-color:#b0d0e9;
+      border-color:silver;
       background:#fff;
       z-index:3;
       cursor:auto;
+      border-bottom:0;
     }
 
     .tabs dd.content-leaf {
@@ -61,7 +61,7 @@
       display:none;
       float:right;
       width:100%;
-      margin:2em 0 0 -100%;
+      margin:10em 0 0 -100%;
       position:relative;
       z-index:2;
     }
@@ -74,8 +74,8 @@
       border:1px solid silver;
       padding:20px;
 
-      -webkit-border-radius:20px;
-      -moz-border-radius:20px;
+      -webkit-border-radius:5px;
+      -moz-border-radius:5px;
     }
 
     .large {
@@ -92,31 +92,32 @@
       display:none;
     }
   </ui:style>
+  <ui:with field='res' type='com.appspot.evetool.client.view.ship.ShipNavigationView.Resources'/>
   <g:HTMLPanel styleName="{style.tabs}">
     <dl class="{style.tabs}" ui:field="tabs">
 
-      <dt class="{style.tab}">Amarr</dt>
+      <dt class="{style.tab}" id="amarr"><g:Image resource='{res.amarr}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content} {style.content}">
           layout 1
         </div>
       </dd>
 
-      <dt class="{style.tab}">Caldari</dt>
+      <dt class="{style.tab}" id="caldari"><g:Image resource='{res.caldari}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
           layout 2
         </div>
       </dd>
 
-      <dt class="{style.tab}">Gallente</dt>
+      <dt class="{style.tab}" id="gallente"><g:Image resource='{res.gallente}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
           layout 3
         </div>
       </dd>
 
-      <dt class="{style.tab}">Minmatar</dt>
+      <dt class="{style.tab}" id="minmatar"><g:Image resource='{res.minmatar}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
           layout 4

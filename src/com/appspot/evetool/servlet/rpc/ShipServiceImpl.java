@@ -8,10 +8,13 @@ import com.appspot.evetool.model.Ship;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.apache.commons.fileupload.FileUpload;
 
 import javax.jdo.PersistenceManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,11 +24,12 @@ import java.util.List;
  */
 @SuppressWarnings({"GwtServiceNotRegistered"})
 @Singleton
-public class StockPriceServiceImpl extends RemoteServiceServlet implements ShipService {
+public class ShipServiceImpl extends RemoteServiceServlet implements ShipService {
+  private static final Logger log = Logger.getLogger(FileUpload.class.getName());
   private ShipDao shipDao;
 
   @Inject
-  public StockPriceServiceImpl(ShipDao shipDao) {
+  public ShipServiceImpl(ShipDao shipDao) {
     this.shipDao = shipDao;
   }
 
@@ -33,8 +37,14 @@ public class StockPriceServiceImpl extends RemoteServiceServlet implements ShipS
   public List<ShipProxy> getShips(String[] query) {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     List<ShipProxy> shipProxies = new ArrayList<ShipProxy>();
-    for (Ship ship : shipDao.getAll(pm)) {
-      shipProxies.add(new ShipProxy(ship.getName()));
+    try {
+      for (Ship ship : shipDao.getAll(pm)) {
+        shipProxies.add(new ShipProxy(ship.getName()));
+      }
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Ship dao error", e);
+    } finally {
+      pm.close();
     }
     return shipProxies;
   }

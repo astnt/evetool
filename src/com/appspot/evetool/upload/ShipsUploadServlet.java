@@ -31,8 +31,7 @@ import java.util.logging.Logger;
  */
 @Singleton
 public class ShipsUploadServlet extends HttpServlet {
-  private static final Logger log =
-      Logger.getLogger(FileUpload.class.getName());
+  private static final Logger log = Logger.getLogger(FileUpload.class.getName());
 
   private ShipDao shipDao;
 

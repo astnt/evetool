@@ -6,7 +6,7 @@ import com.appspot.evetool.servlet.GuiceTestServlet;
 import com.appspot.evetool.servlet.ShipServlet;
 import com.appspot.evetool.servlet.TestActionServlet;
 import com.appspot.evetool.servlet.images.ShipImagesServlet;
-import com.appspot.evetool.servlet.rpc.StockPriceServiceImpl;
+import com.appspot.evetool.servlet.rpc.ShipServiceImpl;
 import com.appspot.evetool.upload.ShipsUploadServlet;
 import com.google.inject.servlet.ServletModule;
 import org.example.HelloAppEngineServlet;
@@ -17,7 +17,7 @@ import org.example.HelloAppEngineServlet;
  * Date: Feb 28, 2010
  * Time: 11:57:02 AM
  */
-public class EvetoolServletModule extends ServletModule {
+public class EveToolServletModule extends ServletModule {
   @Override protected void configureServlets() {
     serve("/login").with(LoginServlet.class);
     serve("/status").with(StatusServlet.class);
@@ -27,6 +27,6 @@ public class EvetoolServletModule extends ServletModule {
     serve("/test/add").with(TestActionServlet.class);
     serve("/images/ship*").with(ShipImagesServlet.class);
     serve("/edit/ship*").with(ShipServlet.class);
-    serve("/evetool/shipService").with(StockPriceServiceImpl.class);
+    serve("/evetool/shipService").with(ShipServiceImpl.class);
   }
 }
