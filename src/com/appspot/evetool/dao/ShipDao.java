@@ -31,6 +31,17 @@ public class ShipDao {
       query.closeAll();
     }
   }
+  public List<Ship> getShipByRace(PersistenceManager pm, String race) {
+    Query query = pm.newQuery(Ship.class);
+    query.setFilter("race == raceParam");
+    query.declareParameters("String raceParam");
+
+    try {
+      return (List<Ship>) query.execute(race);
+    } finally {
+      query.closeAll();
+    }
+  }
 
   public List<Ship> getAll(PersistenceManager pm) {
     Query query = pm.newQuery(Ship.class);

@@ -72,7 +72,7 @@ public class ShipNavigationView extends Composite {
   }
 
   private void loadShips(String race, final Element content) {
-    shipService.getShips(new String[0], new AsyncCallback<List<ShipProxy>>() {
+    shipService.getShips(new String[]{ race }, new AsyncCallback<List<ShipProxy>>() {
       @Override
       public void onFailure(Throwable throwable) {
         GWT.log("error", null);

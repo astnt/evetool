@@ -38,7 +38,13 @@ public class ShipServiceImpl extends RemoteServiceServlet implements ShipService
     PersistenceManager pm = PMF.get().getPersistenceManager();
     List<ShipProxy> shipProxies = new ArrayList<ShipProxy>();
     try {
-      for (Ship ship : shipDao.getAll(pm)) {
+      List<Ship> ships;
+      if (query.length > 0) {
+        ships = shipDao.getShipByRace(pm, query[0]);
+      } else {
+        ships = shipDao.getAll(pm);
+      }
+      for (Ship ship : ships) {
         shipProxies.add(new ShipProxy(ship.getGameId(), ship.getName()));
       }
     } catch (Exception e) {

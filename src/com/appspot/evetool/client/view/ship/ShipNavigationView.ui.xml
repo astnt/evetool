@@ -96,28 +96,28 @@
   <g:HTMLPanel styleName="{style.tabs}">
     <dl class="{style.tabs}" ui:field="tabs">
 
-      <dt class="{style.tab}" id="amarr"><g:Image resource='{res.amarr}'/></dt>
+      <dt class="{style.tab}" id="Amarr"><g:Image resource='{res.amarr}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content} {style.content}">
           layout 1
         </div>
       </dd>
 
-      <dt class="{style.tab}" id="caldari"><g:Image resource='{res.caldari}'/></dt>
+      <dt class="{style.tab}" id="Caldari"><g:Image resource='{res.caldari}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
           layout 2
         </div>
       </dd>
 
-      <dt class="{style.tab}" id="gallente"><g:Image resource='{res.gallente}'/></dt>
+      <dt class="{style.tab}" id="Gallente"><g:Image resource='{res.gallente}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
           layout 3
         </div>
       </dd>
 
-      <dt class="{style.tab}" id="minmatar"><g:Image resource='{res.minmatar}'/></dt>
+      <dt class="{style.tab}" id="Minmatar"><g:Image resource='{res.minmatar}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
           layout 4
