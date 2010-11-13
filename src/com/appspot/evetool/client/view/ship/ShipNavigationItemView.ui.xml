@@ -13,7 +13,7 @@
     .item span {
       margin-left: 40px;
     }
-  </ui:style>
+  </ui:style>                                                      
   <g:HTMLPanel styleName="{style.item}">
     <div>
       <img src="" alt="" ui:field="icon" />

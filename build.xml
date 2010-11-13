@@ -26,9 +26,9 @@
       <fileset dir="${shared.dir}/lib">
         <include name="**/*.jar"/>
       </fileset>
-      <fileset dir="${gwt.home}">
-        <include name="**/*.jar"/>
-      </fileset>
+      <!--<fileset dir="${gwt.home}">--> <!-- jar file too large -->
+        <!--<include name="**/*.jar"/>-->
+      <!--</fileset>-->
     </copy>
   </target>
 
