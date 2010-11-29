@@ -35,7 +35,7 @@ public class ShipImagesServlet extends HttpServlet {
     Ship ship = shipDao.getShipByGameId(pm, req.getParameter("gameId"));
 
     // serve the first image
-    resp.setContentType("image/jpeg");
+    resp.setContentType("image/png");
     if (ship != null) {
       resp.getOutputStream().write(ship.getIcon().getBytes());
     }

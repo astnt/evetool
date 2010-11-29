@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,11 +28,19 @@ public class GuiceTestServlet extends HttpServlet {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     List<Ship> ships = (List<Ship>) pm.newQuery("select from " + Ship.class.getName()).execute();
     resp.getWriter().println("<table border='0'>");
+    Map<String, Integer> map = new HashMap<String, Integer>();
     for (Ship ship : ships) {
       resp.getWriter().println(
           String.format("<tr><td><img src='/images/ship?gameId=%s'/></td><td>%s %s - %s</td></tr>",
               ship.getGameId(), ship.getKey(), ship.getGameId(), ship.getName()));
+      if (!map.containsKey(ship.getType())) {
+        map.put(ship.getType(), 0);
+      }
     }
     resp.getWriter().println("</table>");
+    for (Map.Entry<String, Integer> entry : map.entrySet()) {
+      resp.getWriter().append("\"").append(entry.getKey()).append("\", ");
+    }
+
   }
 }

@@ -11,15 +11,14 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.EventListener;
+import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,15 +27,30 @@ import java.util.List;
  * Time: 12:22:44 PM
  */
 public class ShipNavigationView extends Composite {
+//  private static final String[] SHIP_TYPES = new String[]{ "Battleship", "Cruiser", "Frigate" };
+  private static final String[] SHIP_TYPES = new String[]{
+      "Frigate", "Cruiser", "Assault Ship",
+      "Titan", "Battlecruiser", "Mothership", "Black Ops", "Destroyer", "Freighter",
+      "Industrial", "Transport Ship", "Battleship", "Strategic Cruiser", "Interdictor", "Dreadnought",
+      "Logistics", "Interceptor", "Command Ship", "Carrier", "Heavy Assault Ship", "Stealth Bomber", "Covert Ops",
+      "Marauder", "Heavy Interdictor", "Jump Freighter"
+      , "Combat Recon Ship", "Force Recon Ship", "Shuttle", "Electronic Attack Ship",
+      // "Capital Industrial Ship", "Industrial Command Ship", "Exhumer", "Mining Barge", 
+  };
+
   interface MyUiBinder extends UiBinder<Widget, ShipNavigationView> {}
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
   public interface MyStyle extends CssResource {
     String selected();
     String label();
     String disabled();
+    String clear();
   }
   @UiField MyStyle style;
   @UiField DListElement tabs;
+
+  private Map<String, Element> raceContent = new HashMap<String, Element>();
+  private Map<String, Boolean> raceLoaded = new HashMap<String, Boolean>();
 
   interface Resources extends ClientBundle {
     @Source("amarr.png")
@@ -57,34 +71,51 @@ public class ShipNavigationView extends Composite {
       Node node = tabs.getChildNodes().getItem(i);
       final Element element = (Element) node;
       if ("DD".equals(element.getTagName())) { continue; }
-      DOM.sinkEvents(element, Event.ONCLICK);
-      DOM.setEventListener(element, new EventListener() {
-        @Override
-        public void onBrowserEvent(Event event) {
-          if ("click".equals(event.getType())) {
-            removeSelected();
-            Element content = addSelect(element);
-            loadShips(element.getAttribute("id"), content);
+      if ("DT".equals(element.getTagName())) {
+        final String race = element.getAttribute("id");
+        DOM.sinkEvents(element, Event.ONCLICK);
+        raceContent.put(race, element);
+        DOM.setEventListener(element, new EventListener() {
+          @Override
+          public void onBrowserEvent(Event event) {
+            if ("click".equals(event.getType())) {
+              doClick(race);
+            }
           }
-        }
-      });
+        });
+      }
     }
   }
 
-  private void loadShips(String race, final Element content) {
-    shipService.getShips(new String[]{ race }, new AsyncCallback<List<ShipProxy>>() {
+  public void doClick(String race) {
+    removeSelected();
+    Element element = raceContent.get(race);
+    Element content = selectElementsAndReturnLast(element);
+    if (!raceLoaded.containsKey(race)) {
+      loadShips(race, content);
+      raceLoaded.put(race, true);
+    }
+  }
+
+  private void loadShips(final String race, final Element content) {
+    shipService.getShipsMapByType(new String[]{ race }, new AsyncCallback<Map<String, List<ShipProxy>>>() {
       @Override
       public void onFailure(Throwable throwable) {
         GWT.log("error", null);
       }
+
       @Override
-      public void onSuccess(List<ShipProxy> shipProxies) {
-        for (ShipProxy shipProxy : shipProxies) {
-          Element nextElement = findNextElement(content.getFirstChild());
-          removeChild(nextElement);
-//          nextElement.appendChild(content.getOwnerDocument().createTextNode(shipProxy.getName()));
-          nextElement.appendChild(new ShipNavigationItemView(shipProxy).getElement());
+      public void onSuccess(Map<String, List<ShipProxy>> shipsByType) {
+        Element nextElement = findNextElement(content.getFirstChild());
+        removeChild(nextElement);
+        for (String type : SHIP_TYPES) {
+          List<ShipProxy> shipProxies = shipsByType.get(type);
+          nextElement.appendChild(new ShipNavigationTypeView(type, shipProxies).getElement());
         }
+        com.google.gwt.dom.client.Element br = content.getOwnerDocument().createElement("br");
+        br.setClassName(style.clear());
+        nextElement.appendChild(br);
+        History.newItem(race);
       }
     });
   }
@@ -93,7 +124,7 @@ public class ShipNavigationView extends Composite {
     while (element.getFirstChild() != null) { element.removeChild(element.getFirstChild()); }
   }
 
-  private Element addSelect(Element element) {
+  private Element selectElementsAndReturnLast(Element element) {
     element.addClassName(style.selected());
     Element content = findNextElement(element);
     content.addClassName(style.selected());

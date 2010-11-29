@@ -4,20 +4,24 @@
   <ui:style>
     .item {
       position: relative;
+      margin-bottom: 15px;
     }
     .item img {
       position: absolute;
       top: 0;
       left: 0;
     }
-    .item span {
-      margin-left: 40px;
+    .item div {
+      font-family: sans;
+      font-size:0.8em;
+      margin-left: 20px;
+      padding-top: 5px;
     }
   </ui:style>                                                      
   <g:HTMLPanel styleName="{style.item}">
     <div>
       <img src="" alt="" ui:field="icon" />
-      <span ui:field="name"></span>
+      <div ui:field="name"></div>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

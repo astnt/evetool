@@ -91,6 +91,10 @@
     .disabled {
       display:none;
     }
+
+    .clear {
+      clear:both;
+    }
   </ui:style>
   <ui:with field='res' type='com.appspot.evetool.client.view.ship.ShipNavigationView.Resources'/>
   <g:HTMLPanel styleName="{style.tabs}">
@@ -99,28 +103,28 @@
       <dt class="{style.tab}" id="Amarr"><g:Image resource='{res.amarr}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content} {style.content}">
-          layout 1
+          loading...
         </div>
       </dd>
 
       <dt class="{style.tab}" id="Caldari"><g:Image resource='{res.caldari}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
-          layout 2
+          loading...
         </div>
       </dd>
 
       <dt class="{style.tab}" id="Gallente"><g:Image resource='{res.gallente}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
-          layout 3
+          loading...
         </div>
       </dd>
 
       <dt class="{style.tab}" id="Minmatar"><g:Image resource='{res.minmatar}'/></dt>
       <dd class="{style.content-leaf}">
         <div class="{style.tab-content}">
-          layout 4
+          loading...
         </div>
       </dd>
       
