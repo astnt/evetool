@@ -15,8 +15,8 @@ import com.google.gwt.inject.client.Ginjector;
  * Date: 1/7/11
  * Time: 3:22 PM
  */
-@GinModules(PortalModule.class)
-public interface PortalGinjector extends Ginjector {
+@GinModules(AppModule.class)
+public interface AppGinjector extends Ginjector {
   HandlerManager getEventHandler();
   SimpleEventBus getSimpleEventBus();
   AppRequestFactory getAppRequestFactory();

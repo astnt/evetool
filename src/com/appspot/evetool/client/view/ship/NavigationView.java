@@ -13,9 +13,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.HashMap;
@@ -28,7 +26,7 @@ import java.util.Map;
  * Date: Nov 12, 2010
  * Time: 12:22:44 PM
  */
-public class ShipNavigationView extends Composite {
+public class NavigationView extends Composite {
 //  private static final String[] SHIP_TYPES = new String[]{ "Battleship", "Cruiser", "Frigate" };
   private static final String[] SHIP_TYPES = new String[]{
       "Frigate", "Cruiser", "Assault Ship",
@@ -40,12 +38,7 @@ public class ShipNavigationView extends Composite {
       // "Capital Industrial Ship", "Industrial Command Ship", "Exhumer", "Mining Barge", 
   };
 
-
-  public AcceptsOneWidget getContent() {
-    return content;
-  }
-
-  interface MyUiBinder extends UiBinder<Widget, ShipNavigationView> {}
+  interface MyUiBinder extends UiBinder<Widget, NavigationView> {}
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
   public interface MyStyle extends CssResource {
     String selected();
@@ -55,25 +48,20 @@ public class ShipNavigationView extends Composite {
   }
   @UiField MyStyle style;
   @UiField DListElement tabs;
-  @UiField SimplePanel content;
 
   private Map<String, Element> raceContent = new HashMap<String, Element>();
   private Map<String, Boolean> raceLoaded = new HashMap<String, Boolean>();
 
   interface Resources extends ClientBundle {
-    @Source("amarr.png")
-    ImageResource amarr();
-    @Source("caldari.png")
-    ImageResource caldari();
-    @Source("gallente.png")
-    ImageResource gallente();
-    @Source("minmatar.png")
-    ImageResource minmatar();
+    @Source("amarr.png") ImageResource amarr();
+    @Source("caldari.png") ImageResource caldari();
+    @Source("gallente.png") ImageResource gallente();
+    @Source("minmatar.png") ImageResource minmatar();
   }
 
   private ShipServiceAsync shipService = GWT.create(ShipService.class);
 
-  public ShipNavigationView() {
+  public NavigationView() {
     initWidget(binder.createAndBindUi(this));
     for (int i = 0; i < tabs.getChildCount(); i++) {
       Node node = tabs.getChildNodes().getItem(i);
@@ -118,7 +106,7 @@ public class ShipNavigationView extends Composite {
         removeChild(nextElement);
         for (String type : SHIP_TYPES) {
           List<ShipProxy> shipProxies = shipsByType.get(type);
-          nextElement.appendChild(new ShipNavigationTypeView(type, shipProxies).getElement());
+          nextElement.appendChild(new ShipTypeView(type, shipProxies).getElement());
         }
         com.google.gwt.dom.client.Element br = content.getOwnerDocument().createElement("br");
         br.setClassName(style.clear());

@@ -2,7 +2,7 @@ package com.appspot.evetool.client;
 
 import com.appspot.evetool.client.gin.AppActivityManager;
 import com.appspot.evetool.client.gin.AppPlaceHistoryHandler;
-import com.appspot.evetool.client.view.ship.ShipNavigationView;
+import com.appspot.evetool.client.view.AppView;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -19,13 +19,14 @@ import java.util.logging.Logger;
 public class EvetoolApp {
   private static final Logger log = Logger.getLogger(EvetoolApp.class.getName());
   private AppActivityManager activityManager;
-  private ShipNavigationView shipNavigationView;
+  private AppView appView;
   private AppPlaceHistoryHandler placeHistoryHandler;
 
   @Inject
-  public EvetoolApp(AppActivityManager activityManager, ShipNavigationView shipNavigationView, AppPlaceHistoryHandler placeHistoryHandler) {
+  public EvetoolApp(AppActivityManager activityManager, AppView appView,
+                    AppPlaceHistoryHandler placeHistoryHandler) {
     this.activityManager = activityManager;
-    this.shipNavigationView = shipNavigationView;
+    this.appView = appView;
     this.placeHistoryHandler = placeHistoryHandler;
   }
 
@@ -37,11 +38,11 @@ public class EvetoolApp {
       }
     });
 
-    activityManager.setDisplay(shipNavigationView.getContent());
+    activityManager.setDisplay(appView.getContent());
 
 //    placeHistoryHandler.register(placeController, eventBus, new PartnerAccountManagerPlace());
 //    placeHistoryHandler.handleCurrentHistory();
 
-    root.add(shipNavigationView);
+    root.add(appView);
   }
 }

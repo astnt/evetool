@@ -15,13 +15,13 @@ import com.google.gwt.user.client.ui.Widget;
  * Date: Nov 12, 2010
  * Time: 2:57:22 PM
  */
-public class ShipNavigationItemView extends Composite {
-  interface MyUiBinder extends UiBinder<Widget, ShipNavigationItemView> {}
+public class ShipItemView extends Composite {
+  interface MyUiBinder extends UiBinder<Widget, ShipItemView> {}
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
   @UiField ImageElement icon;
   @UiField DivElement name;
 
-  public ShipNavigationItemView(ShipProxy ship) {
+  public ShipItemView(ShipProxy ship) {
     initWidget(binder.createAndBindUi(this));
     icon.setSrc("/images/ship?gameId=" + ship.getGameId());
     name.setInnerText(ship.getName());

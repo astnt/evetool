@@ -2,7 +2,8 @@ package com.appspot.evetool.client.gin;
 
 import com.appspot.evetool.client.EvetoolApp;
 import com.appspot.evetool.client.mapper.AppActivityMapper;
-import com.appspot.evetool.client.view.ship.ShipNavigationView;
+import com.appspot.evetool.client.view.AppView;
+import com.appspot.evetool.client.view.ship.NavigationView;
 import com.appspot.evetool.shared.AppRequestFactory;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -15,7 +16,7 @@ import com.google.inject.Singleton;
  * Date: 1/7/11
  * Time: 3:23 PM
  */
-public class PortalModule extends AbstractGinModule {
+public class AppModule extends AbstractGinModule {
   protected void configure() {
     bind(SimpleEventBus.class).in(Singleton.class);
     bind(AppPlaceHistoryHandlerProvider.class).in(Singleton.class);
@@ -27,6 +28,7 @@ public class PortalModule extends AbstractGinModule {
     bind(AppActivityManager.class).in(Singleton.class);
     bind(AppActivityMapper.class).in(Singleton.class);
     bind(EvetoolApp.class).in(Singleton.class);
-    bind(ShipNavigationView.class).in(Singleton.class);
+    bind(AppView.class).in(Singleton.class);
+    bind(NavigationView.class).in(Singleton.class);
   }
 }

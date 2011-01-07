@@ -1,7 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
     >
-  <ui:style type="com.appspot.evetool.client.view.ship.ShipNavigationView.MyStyle">
+  <ui:style type="com.appspot.evetool.client.view.ship.NavigationView.MyStyle">
     .content dl {
       position:relative;
       width:95%;
@@ -96,7 +96,7 @@
       clear:both;
     }
   </ui:style>
-  <ui:with field='res' type='com.appspot.evetool.client.view.ship.ShipNavigationView.Resources'/>
+  <ui:with field='res' type='com.appspot.evetool.client.view.ship.NavigationView.Resources'/>
   <g:HTMLPanel styleName="{style.tabs}">
     <dl class="{style.tabs}" ui:field="tabs">
 
@@ -129,6 +129,5 @@
       </dd>
       
     </dl>
-    <g:SimplePanel ui:field="content"/>
   </g:HTMLPanel>
 </ui:UiBinder>
