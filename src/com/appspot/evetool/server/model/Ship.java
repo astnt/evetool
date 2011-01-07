@@ -1,12 +1,16 @@
 package com.appspot.evetool.server.model;
 
+import com.appspot.evetool.server.factory.DB;
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,6 +40,14 @@ public class Ship {
 
   public Key getKey() {
     return key;
+  }
+
+  public String getId() {
+    return gameId;
+  }
+
+  public Integer getVersion() {
+    return 1;
   }
 
   public void setKey(Key key) {
@@ -80,5 +92,46 @@ public class Ship {
 
   public void setIcon(Blob icon) {
     this.icon = icon;
+  }
+
+  public static List<Ship> findAllShips() {
+    PersistenceManager pm = DB.getManager();
+    Query query = pm.newQuery(Ship.class);
+    List<Ship> ships = (List<Ship>) query.execute();
+    pm.retrieveAll(ships);
+    return ships;
+  }
+
+  public static Ship findShip(String id) {
+    PersistenceManager pm = DB.getManager();
+    Query query = pm.newQuery(Ship.class);
+    query.setFilter("gameId == gameIdParam");
+    query.declareParameters("String gameIdParam");
+    List<Ship> results = (List<Ship>) query.execute(id);
+    if (results.iterator().hasNext()) {
+      Ship ship = results.get(0);
+      pm.retrieve(ship);
+      return ship;
+    } else {
+      return null;
+    }
+  }
+
+  public static Ship findShipByName(String name) {
+    PersistenceManager pm = DB.getManager();
+    Query query = pm.newQuery(Ship.class);
+    query.setFilter("name == nameParam");
+    query.declareParameters("String nameParam");
+    List<Ship> ships = (List<Ship>) query.execute(name);
+    if (ships.isEmpty()) { return null; }
+    return ships.get(0);
+  }
+
+  public void persist() {
+  }
+
+
+
+  public void remove() {
   }
 }

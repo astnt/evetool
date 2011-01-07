@@ -9,4 +9,5 @@ import com.google.gwt.requestfactory.shared.RequestFactory;
  * Time: 3:30 PM
  */
 public interface AppRequestFactory extends RequestFactory {
+  ShipRequest shipRequest();
 }

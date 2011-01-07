@@ -3,10 +3,15 @@
     >
   <ui:style>
     .item {
-
+      margin-left:30px;
+    }
+    h1 {
+      margin-bottom:0;
+      padding-bottom:0;
     }
   </ui:style>
   <g:HTMLPanel styleName="{style.item}">
     <h1 ui:field="name"></h1>
+    <span ui:field="type"></span>
   </g:HTMLPanel>
 </ui:UiBinder>
