@@ -13,7 +13,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.HashMap;
@@ -38,6 +40,11 @@ public class ShipNavigationView extends Composite {
       // "Capital Industrial Ship", "Industrial Command Ship", "Exhumer", "Mining Barge", 
   };
 
+
+  public AcceptsOneWidget getContent() {
+    return content;
+  }
+
   interface MyUiBinder extends UiBinder<Widget, ShipNavigationView> {}
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
   public interface MyStyle extends CssResource {
@@ -48,6 +55,7 @@ public class ShipNavigationView extends Composite {
   }
   @UiField MyStyle style;
   @UiField DListElement tabs;
+  @UiField SimplePanel content;
 
   private Map<String, Element> raceContent = new HashMap<String, Element>();
   private Map<String, Boolean> raceLoaded = new HashMap<String, Boolean>();

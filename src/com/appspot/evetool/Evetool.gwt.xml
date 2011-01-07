@@ -3,5 +3,31 @@
     "http://google-web-toolkit.googlecode.com/svn/tags/0.0.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to='evetool'>
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.place.Place"/>
+  <inherits name="com.google.gwt.activity.Activity"/>
+  <inherits name='com.google.gwt.requestfactory.RequestFactory'/>
+  <inherits name='com.google.gwt.user.cellview.CellView'/>
+  <inherits name='com.google.gwt.editor.Editor'/>
+  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client'/>
+  <source path='shared'/>
+  <source path='test'/>
+
+  <!--<inherits name="com.google.gwt.i18n.I18N"/>-->
+  <inherits name="com.google.gwt.inject.Inject"/>
+
   <entry-point class='com.appspot.evetool.client.Main'/>
+
+  <inherits name='com.google.gwt.logging.Logging'/>
+  <set-property name="gwt.logging.enabled" value="TRUE"/>
+  <set-property name="gwt.logging.logLevel" value="SEVERE"/>
+  <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+  <set-property name="gwt.logging.developmentModeHandler" value="ENABLED" />
+  <set-property name="gwt.logging.firebugHandler" value="ENABLED" />
+  <set-property name="gwt.logging.hasWidgetsHandler" value="DISABLED" />
+  <set-property name="gwt.logging.popupHandler" value="DISABLED" />
+  <set-property name="gwt.logging.systemHandler" value="ENABLED" />
+  <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 </module>

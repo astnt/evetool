@@ -19,8 +19,7 @@ public class ShipNavigationItemView extends Composite {
   interface MyUiBinder extends UiBinder<Widget, ShipNavigationItemView> {}
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
   @UiField ImageElement icon;
-  @UiField
-  DivElement name;
+  @UiField DivElement name;
 
   public ShipNavigationItemView(ShipProxy ship) {
     initWidget(binder.createAndBindUi(this));

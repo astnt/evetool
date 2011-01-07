@@ -26,9 +26,10 @@
       <fileset dir="${shared.dir}/lib">
         <include name="**/*.jar"/>
       </fileset>
-      <!--<fileset dir="${gwt.home}">--> <!-- jar file too large -->
-        <!--<include name="**/*.jar"/>-->
-      <!--</fileset>-->
+      <fileset dir="${gwt.home}">
+        <include name="**/*.jar"/>
+        <exclude name="gwt-dev.jar"/>
+      </fileset>
     </copy>
   </target>
 
@@ -82,9 +83,11 @@
 
   <path id="frontend.classpath">
     <pathelement path="src" />
+    <fileset file="${shared.dir}/lib/*.jar" />
     <fileset file="${gwt.home}/gwt-user.jar" />
     <fileset file="${gwt.home}/gwt-dev.jar" />
-  </path>  
+    <path location="war/WEB-INF/classes"/>
+  </path>
 
   <target name="compile.frontend">
     <compile.gwtc module="com.appspot.evetool.Evetool"

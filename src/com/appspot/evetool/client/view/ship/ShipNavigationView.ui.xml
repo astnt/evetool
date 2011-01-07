@@ -129,5 +129,6 @@
       </dd>
       
     </dl>
+    <g:SimplePanel ui:field="content"/>
   </g:HTMLPanel>
 </ui:UiBinder>
