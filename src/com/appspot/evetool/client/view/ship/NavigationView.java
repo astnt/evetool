@@ -1,5 +1,7 @@
 package com.appspot.evetool.client.view.ship;
 
+import com.appspot.evetool.client.gin.AppPlaceController;
+import com.appspot.evetool.client.place.NavigationPlace;
 import com.appspot.evetool.client.proxy.ShipProxy;
 import com.appspot.evetool.client.rpc.ShipService;
 import com.appspot.evetool.client.rpc.ShipServiceAsync;
@@ -11,10 +13,14 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.*;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +44,20 @@ public class NavigationView extends Composite {
       // "Capital Industrial Ship", "Industrial Command Ship", "Exhumer", "Mining Barge", 
   };
 
+  public void updateForPlace(NavigationPlace place) {
+    String race = place.getRace();
+    GWT.log("race="+race, null);
+    removeSelected();
+    if (race != null) {
+      Element element = raceContent.get(race);
+      Element content = selectElementsAndReturnLast(element);
+      if (!raceLoaded.containsKey(race)) {
+        loadShips(race, content);
+        raceLoaded.put(race, true);
+      }
+    }
+  }
+
   interface MyUiBinder extends UiBinder<Widget, NavigationView> {}
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
   public interface MyStyle extends CssResource {
@@ -60,8 +80,11 @@ public class NavigationView extends Composite {
   }
 
   private ShipServiceAsync shipService = GWT.create(ShipService.class);
+  private AppPlaceController placeController;
 
-  public NavigationView() {
+  @Inject
+  public NavigationView(final AppPlaceController placeController) {
+    this.placeController = placeController;
     initWidget(binder.createAndBindUi(this));
     for (int i = 0; i < tabs.getChildCount(); i++) {
       Node node = tabs.getChildNodes().getItem(i);
@@ -75,21 +98,11 @@ public class NavigationView extends Composite {
           @Override
           public void onBrowserEvent(Event event) {
             if ("click".equals(event.getType())) {
-              doClick(race);
+              placeController.goTo(new NavigationPlace(race, null));
             }
           }
         });
       }
-    }
-  }
-
-  public void doClick(String race) {
-    removeSelected();
-    Element element = raceContent.get(race);
-    Element content = selectElementsAndReturnLast(element);
-    if (!raceLoaded.containsKey(race)) {
-      loadShips(race, content);
-      raceLoaded.put(race, true);
     }
   }
 
@@ -111,7 +124,7 @@ public class NavigationView extends Composite {
         com.google.gwt.dom.client.Element br = content.getOwnerDocument().createElement("br");
         br.setClassName(style.clear());
         nextElement.appendChild(br);
-        History.newItem(race);
+//        History.newItem(race);
       }
     });
   }

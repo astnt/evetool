@@ -1,9 +1,12 @@
 package com.appspot.evetool.client;
 
 import com.appspot.evetool.client.gin.AppActivityManager;
+import com.appspot.evetool.client.gin.AppPlaceController;
 import com.appspot.evetool.client.gin.AppPlaceHistoryHandler;
+import com.appspot.evetool.client.place.NavigationPlace;
 import com.appspot.evetool.client.view.AppView;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -21,13 +24,18 @@ public class EvetoolApp {
   private AppActivityManager activityManager;
   private AppView appView;
   private AppPlaceHistoryHandler placeHistoryHandler;
+  private AppPlaceController placeController;
+  private SimpleEventBus eventBus;
 
   @Inject
   public EvetoolApp(AppActivityManager activityManager, AppView appView,
-                    AppPlaceHistoryHandler placeHistoryHandler) {
+                    AppPlaceHistoryHandler placeHistoryHandler, AppPlaceController placeController,
+                    SimpleEventBus eventBus) {
     this.activityManager = activityManager;
     this.appView = appView;
     this.placeHistoryHandler = placeHistoryHandler;
+    this.placeController = placeController;
+    this.eventBus = eventBus;
   }
 
 
@@ -40,8 +48,8 @@ public class EvetoolApp {
 
     activityManager.setDisplay(appView.getContent());
 
-//    placeHistoryHandler.register(placeController, eventBus, new PartnerAccountManagerPlace());
-//    placeHistoryHandler.handleCurrentHistory();
+    placeHistoryHandler.register(placeController, eventBus, new NavigationPlace(null, null));
+    placeHistoryHandler.handleCurrentHistory();
 
     root.add(appView);
   }

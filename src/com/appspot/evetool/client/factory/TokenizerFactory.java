@@ -1,5 +1,7 @@
 package com.appspot.evetool.client.factory;
 
+import com.appspot.evetool.client.place.NavigationPlace;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ast
@@ -7,4 +9,7 @@ package com.appspot.evetool.client.factory;
  * Time: 3:42 PM
  */
 public class TokenizerFactory {
+  public NavigationPlace.Tokenizer getNavigationTokenizer() {
+    return new NavigationPlace.Tokenizer();
+  }
 }
