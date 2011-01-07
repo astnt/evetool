@@ -4,6 +4,7 @@ import com.appspot.evetool.client.EvetoolApp;
 import com.appspot.evetool.client.mapper.AppActivityMapper;
 import com.appspot.evetool.client.view.AppView;
 import com.appspot.evetool.client.view.ship.NavigationView;
+import com.appspot.evetool.client.view.ship.ShipDetailsView;
 import com.appspot.evetool.shared.AppRequestFactory;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -30,5 +31,6 @@ public class AppModule extends AbstractGinModule {
     bind(EvetoolApp.class).in(Singleton.class);
     bind(AppView.class).in(Singleton.class);
     bind(NavigationView.class).in(Singleton.class);
+    bind(ShipDetailsView.class).in(Singleton.class);
   }
 }

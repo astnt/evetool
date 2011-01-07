@@ -89,7 +89,7 @@
     <path location="war/WEB-INF/classes"/>
   </path>
 
-  <target name="compile.frontend">
+  <target name="compile.frontend" depends="compile">
     <compile.gwtc module="com.appspot.evetool.Evetool"
         srcdir="src"
         wardir="war"

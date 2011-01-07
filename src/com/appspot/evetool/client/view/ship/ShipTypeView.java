@@ -1,5 +1,6 @@
 package com.appspot.evetool.client.view.ship;
 
+import com.appspot.evetool.client.gin.AppPlaceController;
 import com.appspot.evetool.client.proxy.ShipProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -10,6 +11,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,14 +27,22 @@ public class ShipTypeView extends Composite {
   @UiField UListElement list;
   @UiField ParagraphElement header;
 
-  public ShipTypeView(String name, List<ShipProxy> ships) {
+  private List<ShipItemView> items = new ArrayList<ShipItemView>();
+
+  public ShipTypeView(String race, String type, List<ShipProxy> ships, AppPlaceController placeController) {
     initWidget(binder.createAndBindUi(this));
-    header.setInnerText(name);
+    header.setInnerText(type);
     if (ships != null) {
       for (ShipProxy ship : ships) {
         Element li = list.appendChild(list.getOwnerDocument().createElement("li"));
-        li.appendChild(new ShipItemView(ship).getElement());
+        ShipItemView shipItemView = new ShipItemView(race, ship, placeController);
+        li.appendChild(shipItemView.getElement());
+        items.add(shipItemView);
       }
     }
+  }
+
+  public List<ShipItemView> getItems() {
+    return items;
   }
 }

@@ -43,10 +43,10 @@ public class NavigationView extends Composite {
       , "Combat Recon Ship", "Force Recon Ship", "Shuttle", "Electronic Attack Ship",
       // "Capital Industrial Ship", "Industrial Command Ship", "Exhumer", "Mining Barge", 
   };
+  private String ship;
 
   public void updateForPlace(NavigationPlace place) {
     String race = place.getRace();
-    GWT.log("race="+race, null);
     removeSelected();
     if (race != null) {
       Element element = raceContent.get(race);
@@ -55,6 +55,16 @@ public class NavigationView extends Composite {
         loadShips(race, content);
         raceLoaded.put(race, true);
       }
+    }
+    ship = place.getShip();
+    updateSelectedShip();
+  }
+
+  private void updateSelectedShip() {
+    if (ship != null && ship.length() > 0 && shipItems.containsKey(ship)) {
+      if (selected != null) { selected.setSelected(false); }
+      selected = shipItems.get(ship);
+      selected.setSelected(true);
     }
   }
 
@@ -71,6 +81,8 @@ public class NavigationView extends Composite {
 
   private Map<String, Element> raceContent = new HashMap<String, Element>();
   private Map<String, Boolean> raceLoaded = new HashMap<String, Boolean>();
+  private Map<String, ShipItemView> shipItems = new HashMap<String, ShipItemView>();
+  private ShipItemView selected;
 
   interface Resources extends ClientBundle {
     @Source("amarr.png") ImageResource amarr();
@@ -119,12 +131,16 @@ public class NavigationView extends Composite {
         removeChild(nextElement);
         for (String type : SHIP_TYPES) {
           List<ShipProxy> shipProxies = shipsByType.get(type);
-          nextElement.appendChild(new ShipTypeView(type, shipProxies).getElement());
+          ShipTypeView shipTypeView = new ShipTypeView(race, type, shipProxies, placeController);
+          nextElement.appendChild(shipTypeView.getElement());
+          for (ShipItemView item : shipTypeView.getItems()) {
+            shipItems.put(item.getShip().getName(), item);
+          }
         }
         com.google.gwt.dom.client.Element br = content.getOwnerDocument().createElement("br");
         br.setClassName(style.clear());
         nextElement.appendChild(br);
-//        History.newItem(race);
+        updateSelectedShip();
       }
     });
   }
@@ -154,4 +170,5 @@ public class NavigationView extends Composite {
       if (element.getNodeType() == Element.TEXT_NODE) { continue; }
       element.removeClassName(style.selected());
     }
-  }}
+  }
+}

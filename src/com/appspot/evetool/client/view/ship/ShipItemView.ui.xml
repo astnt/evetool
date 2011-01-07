@@ -1,21 +1,32 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
     >
-  <ui:style>
+  <ui:style type="com.appspot.evetool.client.view.ship.ShipItemView.Style">
     .item {
       position: relative;
       margin-bottom: 15px;
+      cursor: pointer;
+      border:white solid 1px;
+      height:32px;
     }
+
     .item img {
       position: absolute;
       top: 0;
       left: 0;
     }
+
     .item div {
       font-family: sans;
-      font-size:0.8em;
+      font-size: 0.8em;
       margin-left: 20px;
       padding-top: 5px;
+      text-decoration: underline;
+    }
+
+    .selected {
+      /*border:#5f9ea0 solid 1px;*/
+      background:#f0f8ff;
     }
   </ui:style>                                                      
   <g:HTMLPanel styleName="{style.item}">
@@ -23,5 +34,6 @@
       <img src="" alt="" ui:field="icon" />
       <div ui:field="name"></div>
     </div>
+    <!--<div style="clear:both;"></div>-->
   </g:HTMLPanel>
 </ui:UiBinder>
