@@ -1,7 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
     >
-  <ui:style>
+  <ui:style type="com.appspot.evetool.client.view.ship.ShipDetailsView.Style">
     .item {
       margin-left:30px;
     }
@@ -9,9 +9,19 @@
       margin-bottom:0;
       padding-bottom:0;
     }
+    span {
+      font-family:sans-serif;
+      font-size:85%;
+    }
+    fieldset {
+      width:30%;
+    }
   </ui:style>
   <g:HTMLPanel styleName="{style.item}">
     <h1 ui:field="name"></h1>
-    <span ui:field="type"></span>
+    <fieldset>
+      <legend>Description</legend>
+      <g:HTML ui:field="description"/>
+    </fieldset>
   </g:HTMLPanel>
 </ui:UiBinder>

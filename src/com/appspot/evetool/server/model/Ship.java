@@ -3,6 +3,7 @@ package com.appspot.evetool.server.model;
 import com.appspot.evetool.server.factory.DB;
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -28,6 +29,7 @@ public class Ship {
   @Persistent String name;
   @Persistent String type;
   @Persistent String race;
+  @Persistent Text description;
   @Persistent Blob icon;
 
   public Ship(String gameId, String name, String type, String race, Blob icon) {
@@ -92,6 +94,14 @@ public class Ship {
 
   public void setIcon(Blob icon) {
     this.icon = icon;
+  }
+
+  public String getDescription() {
+    return description.getValue();
+  }
+
+  public void setDescription(String description) {
+    this.description = new Text(description);
   }
 
   public static List<Ship> findAllShips() {

@@ -1,7 +1,7 @@
-package com.appspot.evetool.server.upload;
+package com.appspot.evetool.server.servlet.upload;
 
 import com.appspot.evetool.server.dao.ShipDao;
-import com.appspot.evetool.server.factory.PMF;
+import com.appspot.evetool.server.factory.DB;
 import com.appspot.evetool.server.model.Ship;
 import com.google.appengine.api.datastore.Blob;
 import com.google.inject.Inject;
@@ -57,9 +57,10 @@ public class ShipsUploadServlet extends HttpServlet {
     resp.getWriter().println(String.format("name: %s", req.getParameter("name")));
     resp.getWriter().println(String.format("race: %s", req.getParameter("race")));
     resp.getWriter().println(String.format("type: %s", req.getParameter("type")));
+    resp.getWriter().println(String.format("description: %s", req.getParameter("description")));
 
     if (gameId != null && gameId.length() > 0) {
-      PersistenceManager pm = PMF.get().getPersistenceManager();
+      PersistenceManager pm = DB.getManager();
       boolean isNew = false;
       Ship ship = shipDao.getShipByGameId(pm, gameId);
       if (ship == null) {
@@ -70,14 +71,13 @@ public class ShipsUploadServlet extends HttpServlet {
         if ("file".equals(mode)) {
           ship.setIcon(getShipIcon(req));
         }
-      }
-      try {
-        if (isNew) {
-          pm.makePersistent(ship);
+        if ("data".equals(mode)) {
+          ship.setDescription(req.getParameter("description"));
         }
-      } finally {
-        pm.close();
       }
+      pm.currentTransaction().begin();
+      pm.makePersistent(ship);
+      pm.currentTransaction().commit();
       resp.getWriter().println(isNew ? "Created" : "Updated");
     }
 

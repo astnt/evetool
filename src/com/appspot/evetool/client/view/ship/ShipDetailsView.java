@@ -5,13 +5,16 @@ import com.appspot.evetool.shared.AppRequestFactory;
 import com.appspot.evetool.shared.ShipProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.HeadingElement;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.requestfactory.shared.Receiver;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,11 +23,16 @@ import com.google.inject.Inject;
  * Time: 6:59 PM
  */
 public class ShipDetailsView extends Composite {
+  Logger logger = Logger.getLogger("ShipDetailsView");
   interface MyUiBinder extends UiBinder<Widget, ShipDetailsView> {}
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
+  public interface Style extends CssResource {
+    String item();
+  }
+  @UiField Style style;
 
   @UiField HeadingElement name;
-  @UiField SpanElement type;
+  @UiField HTML description;
 
   private AppRequestFactory requestFactory;
 
@@ -32,6 +40,7 @@ public class ShipDetailsView extends Composite {
   public ShipDetailsView(AppRequestFactory requestFactory) {
     this.requestFactory = requestFactory;
     initWidget(binder.createAndBindUi(this));
+
   }
 
   public void updateForPlace(NavigationPlace place) {
@@ -39,7 +48,7 @@ public class ShipDetailsView extends Composite {
     requestFactory.shipRequest().findShipByName(place.getShip()).fire(new Receiver<ShipProxy>() {
       @Override
       public void onSuccess(ShipProxy ship) {
-        type.setInnerText(ship.getType());
+        description.setHTML(ship.getDescription().replace("\n", "<br/>"));
       }
     });
   }

@@ -16,4 +16,5 @@ public interface ShipProxy extends EntityProxy {
   EntityProxyId<ShipProxy> stableId();
   String getName();
   String getType();
+  String getDescription();
 }

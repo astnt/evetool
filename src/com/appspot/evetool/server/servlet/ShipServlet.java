@@ -1,7 +1,7 @@
 package com.appspot.evetool.server.servlet;
 
 import com.appspot.evetool.server.dao.ShipDao;
-import com.appspot.evetool.server.factory.PMF;
+import com.appspot.evetool.server.factory.DB;
 import com.appspot.evetool.server.model.Ship;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,13 +31,9 @@ public class ShipServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     if ("delete".equals(req.getParameter("action"))) {
-      PersistenceManager pm = PMF.get().getPersistenceManager();
-      try {
-        Ship ship = shipDao.getShipByGameId(pm, req.getParameter("gameId"));
-        pm.deletePersistent(ship);
-      } finally {
-        pm.close();
-      }
+      PersistenceManager pm = DB.getManager();
+      Ship ship = shipDao.getShipByGameId(pm, req.getParameter("gameId"));
+      pm.deletePersistent(ship);
     }
   }
 }

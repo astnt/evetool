@@ -4,7 +4,7 @@ import com.appspot.evetool.server.filter.PersistenceFilter;
 import com.appspot.evetool.server.servlet.*;
 import com.appspot.evetool.server.servlet.images.ShipImagesServlet;
 import com.appspot.evetool.server.servlet.rpc.ShipServiceImpl;
-import com.appspot.evetool.server.upload.ShipsUploadServlet;
+import com.appspot.evetool.server.servlet.upload.ShipsUploadServlet;
 import com.google.inject.servlet.ServletModule;
 
 /**

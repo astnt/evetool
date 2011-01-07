@@ -3,6 +3,16 @@
              xmlns:s='urn:import:com.appspot.evetool.client.view.ship'
              xmlns:w='urn:import:com.appspot.evetool.client.view.widget'
     >
+  <ui:style type="com.appspot.evetool.client.view.AppView.Style">
+    .footer {
+      margin-top:2em;
+      padding-top:3em;
+      padding-left:40px;
+      padding-right:40px;
+      padding-bottom:4em;
+      border-top:silver solid 1px;
+    }
+  </ui:style>
   <g:HTMLPanel>
     <s:NavigationView ui:field="shipNavigation"/>
     <g:SimplePanel ui:field="content"/>
@@ -17,5 +27,9 @@
         <g:HTML>Caldari content</g:HTML>
       </g:HTMLPanel>
     </w:TabPanel>
+
+    <div ui:field="footer">
+      &#169; 2011 Eve Tool
+    </div>
   </g:HTMLPanel>
 </ui:UiBinder>
