@@ -83,13 +83,11 @@
 
   <path id="frontend.classpath">
     <pathelement path="src" />
-    <fileset file="${shared.dir}/lib/*.jar" />
     <fileset file="${gwt.home}/gwt-user.jar" />
     <fileset file="${gwt.home}/gwt-dev.jar" />
-    <path location="war/WEB-INF/classes"/>
-  </path>
+  </path>  
 
-  <target name="compile.frontend" depends="compile">
+  <target name="compile.frontend">
     <compile.gwtc module="com.appspot.evetool.Evetool"
         srcdir="src"
         wardir="war"
