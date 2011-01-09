@@ -6,6 +6,7 @@ import com.appspot.evetool.shared.ShipProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.HeadingElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.TableElement;
 import com.google.gwt.requestfactory.shared.Receiver;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -29,12 +30,15 @@ public class ShipDetailsView extends Composite {
   private static MyUiBinder binder = GWT.create(MyUiBinder.class);
   public interface Style extends CssResource {
     String item();
+    String properties();
+    String row();
   }
   @UiField Style style;
 
   @UiField HeadingElement name;
   @UiField ImageElement ship256;
   @UiField HTML description;
+  @UiField TableElement properties;
 
   private AppRequestFactory requestFactory;
 
@@ -42,7 +46,7 @@ public class ShipDetailsView extends Composite {
   public ShipDetailsView(AppRequestFactory requestFactory) {
     this.requestFactory = requestFactory;
     initWidget(binder.createAndBindUi(this));
-
+    properties.addClassName(style.properties());
   }
 
   public void updateForPlace(NavigationPlace place) {
@@ -54,8 +58,31 @@ public class ShipDetailsView extends Composite {
         if (ship != null) {
           description.setHTML(ship.getDescription().replace("\n", "<br/>"));
           ship256.setSrc("/images/ship?gameId=" + ship.getId() + "&type=ship256");
+          PropertiesBuilder builder = new PropertiesBuilder();
+          builder.add("Base Price", ship.getBasePrice());
+          builder.add("Mass", ship.getMass());
+          builder.add("Volume", ship.getVolume());
+          builder.add("Capacity", ship.getCapacity());
+          builder.add("Inertia Modifier", ship.getInertiaModifier());
+          properties.setInnerHTML(builder.result());
         }
       }
     });
+  }
+
+
+
+  private class PropertiesBuilder {
+    private boolean row = false;
+    private String html = "";
+
+    private void add(String name, String value) {
+      html += "<tr class=\"" + (row ? style.row() : "") +  "\"><td>" + name + "</td><td>" + value + "</td></tr>";
+      row = !row;
+    }
+
+    public String result() {
+      return html;
+    }
   }
 }

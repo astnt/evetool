@@ -18,4 +18,9 @@ public interface ShipProxy extends EntityProxy {
   String getName();
   String getType();
   String getDescription();
+  String getBasePrice();
+  String getMass();
+  String getVolume();
+  String getCapacity();
+  String getInertiaModifier();
 }

@@ -76,6 +76,11 @@ public class ShipsUploadServlet extends HttpServlet {
         }
         if ("data".equals(mode)) {
           ship.setDescription(req.getParameter("description"));
+          ship.setBasePrice(req.getParameter("basePrice"));
+          ship.setMass(req.getParameter("mass"));
+          ship.setVolume(req.getParameter("volume"));
+          ship.setCapacity(req.getParameter("capacity"));
+          ship.setInertiaModifier(req.getParameter("inertiaModifier"));
         }
       }
       pm.currentTransaction().begin();

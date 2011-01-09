@@ -31,7 +31,12 @@ public class Ship {
   @Persistent String race;
   @Persistent Text description;
   @Persistent Blob icon;
-  @Persistent private Blob img256;
+  @Persistent Blob img256;
+  @Persistent String basePrice;
+  @Persistent String mass;
+  @Persistent String volume;
+  @Persistent String capacity;
+  @Persistent String inertiaModifier;
 
   public Ship(String gameId, String name, String type, String race, Blob icon) {
     this.gameId = gameId;
@@ -39,6 +44,45 @@ public class Ship {
     this.type = type;
     this.race = race;
     this.icon = icon;
+  }
+
+  public static List<Ship> findAllShips() {
+    PersistenceManager pm = DB.getManager();
+    Query query = pm.newQuery(Ship.class);
+    List<Ship> ships = (List<Ship>) query.execute();
+    pm.retrieveAll(ships);
+    return ships;
+  }
+
+  public static Ship findShip(String id) {
+    PersistenceManager pm = DB.getManager();
+    Query query = pm.newQuery(Ship.class);
+    query.setFilter("gameId == gameIdParam");
+    query.declareParameters("String gameIdParam");
+    List<Ship> results = (List<Ship>) query.execute(id);
+    if (results.iterator().hasNext()) {
+      Ship ship = results.get(0);
+      pm.retrieve(ship);
+      return ship;
+    } else {
+      return null;
+    }
+  }
+
+  public static Ship findShipByName(String name) {
+    PersistenceManager pm = DB.getManager();
+    Query query = pm.newQuery(Ship.class);
+    query.setFilter("name == nameParam");
+    query.declareParameters("String nameParam");
+    List<Ship> ships = (List<Ship>) query.execute(name);
+    if (ships.isEmpty()) { return null; }
+    return ships.get(0);
+  }
+
+  public void persist() {
+  }
+
+  public void remove() {
   }
 
   public Key getKey() {
@@ -113,42 +157,43 @@ public class Ship {
     this.description = new Text(description);
   }
 
-  public static List<Ship> findAllShips() {
-    PersistenceManager pm = DB.getManager();
-    Query query = pm.newQuery(Ship.class);
-    List<Ship> ships = (List<Ship>) query.execute();
-    pm.retrieveAll(ships);
-    return ships;
+  public void setBasePrice(String basePrice) {
+    this.basePrice = basePrice;
   }
 
-  public static Ship findShip(String id) {
-    PersistenceManager pm = DB.getManager();
-    Query query = pm.newQuery(Ship.class);
-    query.setFilter("gameId == gameIdParam");
-    query.declareParameters("String gameIdParam");
-    List<Ship> results = (List<Ship>) query.execute(id);
-    if (results.iterator().hasNext()) {
-      Ship ship = results.get(0);
-      pm.retrieve(ship);
-      return ship;
-    } else {
-      return null;
-    }
+  public String getBasePrice() {
+    return basePrice;
   }
 
-  public static Ship findShipByName(String name) {
-    PersistenceManager pm = DB.getManager();
-    Query query = pm.newQuery(Ship.class);
-    query.setFilter("name == nameParam");
-    query.declareParameters("String nameParam");
-    List<Ship> ships = (List<Ship>) query.execute(name);
-    if (ships.isEmpty()) { return null; }
-    return ships.get(0);
+  public void setMass(String mass) {
+    this.mass = mass;
   }
 
-  public void persist() {
+  public String getMass() {
+    return mass;
   }
 
-  public void remove() {
+  public void setVolume(String volume) {
+    this.volume = volume;
+  }
+
+  public String getVolume() {
+    return volume;
+  }
+
+  public void setCapacity(String capacity) {
+    this.capacity = capacity;
+  }
+
+  public String getCapacity() {
+    return capacity;
+  }
+
+  public void setInertiaModifier(String inertiaModifier) {
+    this.inertiaModifier = inertiaModifier;
+  }
+
+  public String getInertiaModifier() {
+    return inertiaModifier;
   }
 }
