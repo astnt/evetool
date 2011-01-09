@@ -33,10 +33,12 @@ public class ShipImagesServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     Ship ship = shipDao.getShipByGameId(pm, req.getParameter("gameId"));
-
+    String type = req.getParameter("type");
     // serve the first image
     resp.setContentType("image/png");
-    if (ship != null) {
+    if (type != null && "ship256".equals(type)) {
+      resp.getOutputStream().write(ship.getImg256().getBytes());
+    } else if (ship != null) {
       resp.getOutputStream().write(ship.getIcon().getBytes());
     }
   }

@@ -12,6 +12,7 @@ import java.util.List;
  * User: ast
  * Date: Nov 11, 2010
  * Time: 3:18:47 PM
+ * @deprecated
  */
 @Singleton
 public class ShipDao {

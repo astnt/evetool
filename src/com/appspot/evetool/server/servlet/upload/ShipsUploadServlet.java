@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,11 +66,13 @@ public class ShipsUploadServlet extends HttpServlet {
       Ship ship = shipDao.getShipByGameId(pm, gameId);
       if (ship == null) {
         ship = new Ship(req.getParameter("gameId"), req.getParameter("name"), req.getParameter("type"),
-            req.getParameter("race"), getShipIcon(req));
+            req.getParameter("race"), getShipImgs(req).get("shipIcon"));
         isNew = true;
       } else { // Update
         if ("file".equals(mode)) {
-          ship.setIcon(getShipIcon(req));
+          HashMap<String, Blob> shipImgs = getShipImgs(req);
+          ship.setIcon(shipImgs.get("shipIcon"));
+          ship.setImg256(shipImgs.get("ship256"));
         }
         if ("data".equals(mode)) {
           ship.setDescription(req.getParameter("description"));
@@ -83,22 +86,24 @@ public class ShipsUploadServlet extends HttpServlet {
 
   }
 
-  private Blob getShipIcon(HttpServletRequest req) throws IOException {
+  private HashMap<String, Blob> getShipImgs(HttpServletRequest req) throws IOException {
+    HashMap<String, Blob> images = new HashMap<String, Blob>();
     ServletFileUpload upload = new ServletFileUpload();
     try {
       FileItemIterator iterator = upload.getItemIterator(req);
       while (iterator.hasNext()) {
         FileItemStream item = iterator.next();
         InputStream stream = item.openStream();
-        if (!item.isFormField() && "shipIcon".equals(item.getFieldName())) {
-          return new Blob(IOUtils.toByteArray(stream));
+        if (!item.isFormField() &&
+            ("shipIcon".equals(item.getFieldName()) || "ship256".equals(item.getFieldName()))
+           ) {
+          images.put(item.getFieldName(), new Blob(IOUtils.toByteArray(stream)));
         }
       }
-
     } catch (FileUploadException e) {
-      log.log(Level.SEVERE, "Ship icon error", e);
+      log.log(Level.SEVERE, "Ship img error", e);
     }
-    return null;
+    return images;
   }
 
 

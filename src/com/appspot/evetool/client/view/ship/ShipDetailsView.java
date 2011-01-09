@@ -5,6 +5,7 @@ import com.appspot.evetool.shared.AppRequestFactory;
 import com.appspot.evetool.shared.ShipProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.HeadingElement;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.requestfactory.shared.Receiver;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -32,6 +33,7 @@ public class ShipDetailsView extends Composite {
   @UiField Style style;
 
   @UiField HeadingElement name;
+  @UiField ImageElement ship256;
   @UiField HTML description;
 
   private AppRequestFactory requestFactory;
@@ -45,11 +47,13 @@ public class ShipDetailsView extends Composite {
 
   public void updateForPlace(NavigationPlace place) {
     name.setInnerText(place.getShip());
+    description.setHTML("loading...");
     requestFactory.shipRequest().findShipByName(place.getShip()).fire(new Receiver<ShipProxy>() {
       @Override
       public void onSuccess(ShipProxy ship) {
         if (ship != null) {
           description.setHTML(ship.getDescription().replace("\n", "<br/>"));
+          ship256.setSrc("/images/ship?gameId=" + ship.getId() + "&type=ship256");
         }
       }
     });

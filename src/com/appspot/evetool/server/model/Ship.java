@@ -31,6 +31,7 @@ public class Ship {
   @Persistent String race;
   @Persistent Text description;
   @Persistent Blob icon;
+  @Persistent private Blob img256;
 
   public Ship(String gameId, String name, String type, String race, Blob icon) {
     this.gameId = gameId;
@@ -96,6 +97,14 @@ public class Ship {
     this.icon = icon;
   }
 
+  public Blob getImg256() {
+    return img256;
+  }
+
+  public void setImg256(Blob img256) {
+    this.img256 = img256;
+  }
+
   public String getDescription() {
     return description.getValue();
   }
@@ -139,8 +148,6 @@ public class Ship {
 
   public void persist() {
   }
-
-
 
   public void remove() {
   }

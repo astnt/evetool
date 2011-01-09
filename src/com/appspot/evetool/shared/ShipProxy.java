@@ -14,6 +14,7 @@ import com.google.gwt.requestfactory.shared.ProxyFor;
 @ProxyFor(Ship.class)
 public interface ShipProxy extends EntityProxy {
   EntityProxyId<ShipProxy> stableId();
+  String getId();
   String getName();
   String getType();
   String getDescription();

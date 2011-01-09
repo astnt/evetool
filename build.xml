@@ -2,6 +2,7 @@
   <property file="./build.properties" />
   <property name="sdk.dir" location="../../../tools/appengine"/>
   <property name="shared.dir" location="../../../tools/sdk"/>
+  <property name="http.dir" location="../../../tools/http"/>
 
   <import file="${sdk.dir}/config/user/ant-macros.xml"/>
 
@@ -11,6 +12,9 @@
       <include name="**/*.jar"/>
     </fileset>
     <fileset dir="${sdk.dir}/lib">
+      <include name="shared/**/*.jar"/>
+    </fileset>
+    <fileset dir="${http.dir}/lib">
       <include name="shared/**/*.jar"/>
     </fileset>
   </path>
@@ -24,6 +28,9 @@
         <include name="**/*.jar"/>
       </fileset>
       <fileset dir="${shared.dir}/lib">
+        <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${http.dir}/lib">
         <include name="**/*.jar"/>
       </fileset>
       <fileset dir="${gwt.home}">

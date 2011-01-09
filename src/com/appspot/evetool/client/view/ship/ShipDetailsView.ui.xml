@@ -5,23 +5,31 @@
     .item {
       margin-left:40px;
     }
-    h1 {
+    .item h1 {
       margin-bottom:0;
       padding-bottom:0;
     }
-    span {
+    item span {
       font-family:sans-serif;
       font-size:85%;
     }
-    fieldset {
+    .item img {
+      float:left;
+      margin-top:8px;
+    }
+    .item fieldset {
       width:30%;
+      float:left;
+      margin-left:10px;
     }
   </ui:style>
   <g:HTMLPanel styleName="{style.item}">
     <h1 ui:field="name"></h1>
+    <img ui:field="ship256" alt="" src="" width="256" height="256"/>
     <fieldset>
       <legend>Description</legend>
       <g:HTML ui:field="description"/>
     </fieldset>
+    <div style="clear:both;"></div>
   </g:HTMLPanel>
 </ui:UiBinder>

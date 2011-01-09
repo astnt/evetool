@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
  * User: ast
  * Date: Nov 13, 2010
  * Time: 2:24:40 PM
+ * @deprecated
  */
 @Singleton
 public class MapService {
