@@ -48,7 +48,9 @@ public class ShipDetailsView extends Composite {
     requestFactory.shipRequest().findShipByName(place.getShip()).fire(new Receiver<ShipProxy>() {
       @Override
       public void onSuccess(ShipProxy ship) {
-        description.setHTML(ship.getDescription().replace("\n", "<br/>"));
+        if (ship != null) {
+          description.setHTML(ship.getDescription().replace("\n", "<br/>"));
+        }
       }
     });
   }
