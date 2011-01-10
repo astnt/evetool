@@ -35,6 +35,12 @@
     .row {
       background:#add8e6;
     }
+
+    .item th {
+      font-size:85%;
+      text-shadow:#f0ffff;
+      color:black;
+    }
   </ui:style>
   <g:HTMLPanel styleName="{style.item}">
     <h1 ui:field="name"></h1>
@@ -45,5 +51,9 @@
     </fieldset>
     <div style="clear:both;"></div>
     <table ui:field="properties"></table>
+    <hr/>
+    <g:Button ui:field="getPrices" text="Get prices"/>
+    <p ui:field="pricesMsg"></p>
+    <c:CellTable ui:field="prices"/>
   </g:HTMLPanel>
 </ui:UiBinder>

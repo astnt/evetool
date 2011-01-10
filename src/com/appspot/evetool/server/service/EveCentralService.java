@@ -5,15 +5,14 @@ import com.google.inject.Singleton;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -33,8 +32,7 @@ public class EveCentralService {
   public List<Order> fetchQuickLook(String typeId) throws IOException, SAXException, ParserConfigurationException,
       XPathExpressionException {
     List<Order> orders = new ArrayList<Order>();
-    Document doc = getXml("http://api.eve-central.com/api/quicklook?typeid=" + typeId);
-    xpath(doc, "");
+    Document doc = getXml("http://api.eve-central.com/api/quicklook?typeid=" + typeId + "&regionlimit=10000002");
     parseOrders(orders, doc, "sell_orders", "evec_api/quicklook/sell_orders/order");
     parseOrders(orders, doc, "buy_orders", "evec_api/quicklook/buy_orders/order");
     return orders;
@@ -90,14 +88,17 @@ public class EveCentralService {
       xml.append(inputLine);
     }
     in.close();
-    return read(xml.toString());
+    String xml1 = xml.toString();
+    log.info("api response=" + xml1);
+    return read(xml1);
   }
 
   private Document read(String xml) throws ParserConfigurationException, IOException, SAXException {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setNamespaceAware(true); // never forget this!
     DocumentBuilder builder = factory.newDocumentBuilder();
-    return builder.parse(xml);
+    Reader reader = new CharArrayReader(xml.toCharArray());
+    return builder.parse(new InputSource(reader));
   }
 
   private NodeList xpath(Document doc, String path) throws XPathExpressionException {

@@ -41,6 +41,7 @@ public class TestActionServlet extends HttpServlet {
       List<Order> orders = eveCentralService.fetchQuickLook("34");
       for (Order order : orders) {
         resp.getWriter().println(order.getId());
+        resp.getWriter().println(order.getStationName());
       }
     } catch (SAXException e) {
       log.log(Level.SEVERE, "sax error", e);

@@ -10,4 +10,5 @@ import com.google.gwt.requestfactory.shared.RequestFactory;
  */
 public interface AppRequestFactory extends RequestFactory {
   ShipRequest shipRequest();
+  OrderRequest orderRequest();
 }

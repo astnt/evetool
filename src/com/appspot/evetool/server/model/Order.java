@@ -1,5 +1,14 @@
 package com.appspot.evetool.server.model;
 
+import com.appspot.evetool.server.factory.SF;
+import com.appspot.evetool.server.service.EveCentralService;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ast
@@ -17,6 +26,16 @@ public class Order {
   private String expires;
   private String reportedTime;
   private String type;
+
+  public static List<Order> findOrdersByType(String typeId) throws IOException, SAXException, XPathExpressionException, ParserConfigurationException {
+    EveCentralService eveCentralService = SF.getEveCentralService();
+    List<Order> orders = eveCentralService.fetchQuickLook(typeId);
+    return orders;
+  }
+
+  public static Order findOrder(String id) {
+    return null;
+  }
 
   public void setId(String id) {
     this.id = id;

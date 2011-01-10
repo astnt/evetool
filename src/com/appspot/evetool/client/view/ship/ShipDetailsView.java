@@ -2,20 +2,29 @@ package com.appspot.evetool.client.view.ship;
 
 import com.appspot.evetool.client.place.NavigationPlace;
 import com.appspot.evetool.shared.AppRequestFactory;
+import com.appspot.evetool.shared.OrderProxy;
 import com.appspot.evetool.shared.ShipProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.HeadingElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.dom.client.TableElement;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.requestfactory.shared.Receiver;
+import com.google.gwt.requestfactory.shared.ServerFailure;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -39,22 +48,30 @@ public class ShipDetailsView extends Composite {
   @UiField ImageElement ship256;
   @UiField HTML description;
   @UiField TableElement properties;
+  @UiField Button getPrices;
+  @UiField CellTable<OrderProxy> prices;
+  @UiField ParagraphElement pricesMsg;
 
   private AppRequestFactory requestFactory;
+  private ShipProxy ship;
 
   @Inject
   public ShipDetailsView(AppRequestFactory requestFactory) {
     this.requestFactory = requestFactory;
     initWidget(binder.createAndBindUi(this));
     properties.addClassName(style.properties());
+    prices.setVisible(false);
+    makePrices();
   }
 
   public void updateForPlace(NavigationPlace place) {
     name.setInnerText(place.getShip());
     description.setHTML("loading...");
+    getPrices.setEnabled(false);
     requestFactory.shipRequest().findShipByName(place.getShip()).fire(new Receiver<ShipProxy>() {
       @Override
-      public void onSuccess(ShipProxy ship) {
+      public void onSuccess(ShipProxy responseShip) {
+        ship = responseShip;
         if (ship != null) {
           description.setHTML(ship.getDescription().replace("\n", "<br/>"));
           ship256.setSrc("/images/ship?gameId=" + ship.getId() + "&type=ship256");
@@ -65,12 +82,36 @@ public class ShipDetailsView extends Composite {
           builder.add("Capacity", ship.getCapacity());
           builder.add("Inertia Modifier", ship.getInertiaModifier());
           properties.setInnerHTML(builder.result());
+          getPrices.setEnabled(true);
+          prices.setVisible(false);
         }
       }
     });
   }
 
+  @UiHandler("getPrices")
+  public void onGetPricesClick(ClickEvent e) {
+    requestFactory.orderRequest().findOrdersByType(ship.getId()).fire(new Receiver<List<OrderProxy>>() {
+      @Override
+      public void onFailure(ServerFailure error) {
+        getPrices.setText("Get prices");
+        getPrices.setEnabled(true);
+        pricesMsg.setInnerText(error.getMessage());
+      }
 
+      @Override
+      public void onSuccess(List<OrderProxy> orderProxies) {
+        prices.setRowCount(orderProxies.size(), true);
+        prices.setRowData(0, orderProxies);
+        prices.setVisible(true);
+        getPrices.setText("Get prices");
+        getPrices.setEnabled(true);
+        pricesMsg.setInnerText("");
+      }
+    });
+    getPrices.setEnabled(false);
+    getPrices.setText("Loading...");
+  }
 
   private class PropertiesBuilder {
     private boolean row = false;
@@ -84,5 +125,62 @@ public class ShipDetailsView extends Composite {
     public String result() {
       return html;
     }
+  }
+
+  private void makePrices() {
+//    TextColumn<OrderProxy> id = new TextColumn<OrderProxy>() {
+//      public String getValue(OrderProxy orderProxy) {
+//        return orderProxy.getId();
+//      }
+//    };
+    TextColumn<OrderProxy> type = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return "sell_orders".equals(orderProxy.getType()) ? "Sell" : "Buy";
+      }
+    };
+    TextColumn<OrderProxy> station = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return orderProxy.getStationName();
+      }
+    };
+    TextColumn<OrderProxy> range = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return orderProxy.getRange();
+      }
+    };
+    TextColumn<OrderProxy> price = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return orderProxy.getPrice();
+      }
+    };
+    TextColumn<OrderProxy> volRemain = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return orderProxy.getVolRemain();
+      }
+    };
+    TextColumn<OrderProxy> minVolume = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return orderProxy.getMinVolume();
+      }
+    };
+    TextColumn<OrderProxy> expires = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return orderProxy.getExpires();
+      }
+    };
+    TextColumn<OrderProxy> reportedTime = new TextColumn<OrderProxy>() {
+      public String getValue(OrderProxy orderProxy) {
+        return orderProxy.getReportedTime();
+      }
+    };
+//    prices.addColumn(id, "Id");
+    prices.addColumn(type, "Type");
+    prices.addColumn(station, "Station Name");
+    prices.addColumn(range, "Range");
+    prices.addColumn(price, "Price");
+    prices.addColumn(volRemain, "Volume Remain");
+    prices.addColumn(minVolume, "Min Volume");
+    prices.addColumn(expires, "Expires");
+    prices.addColumn(reportedTime, "Reported Time");
   }
 }
