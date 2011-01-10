@@ -75,6 +75,15 @@ public class NavigationView extends Composite {
     String label();
     String disabled();
     String clear();
+    String content();
+    @ClassName("tab-content")
+    String tabContent();
+    String tab();
+    @ClassName("content-leaf")
+    String contentLeaf();
+    String textEdit();
+    String large();
+    String tabs();
   }
   @UiField MyStyle style;
   @UiField DListElement tabs;
@@ -85,10 +94,10 @@ public class NavigationView extends Composite {
   private ShipItemView selected;
 
   interface Resources extends ClientBundle {
-    @Source("amarr.png") ImageResource amarr();
-    @Source("caldari.png") ImageResource caldari();
-    @Source("gallente.png") ImageResource gallente();
-    @Source("minmatar.png") ImageResource minmatar();
+    @Source("icon19_01.png") ImageResource caldari();
+    @Source("icon19_02.png") ImageResource minmatar();
+    @Source("icon19_03.png") ImageResource gallente();
+    @Source("icon19_04.png") ImageResource amarr();
   }
 
   private ShipServiceAsync shipService = GWT.create(ShipService.class);

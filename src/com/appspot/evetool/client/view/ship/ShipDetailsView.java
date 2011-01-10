@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.requestfactory.shared.Receiver;
 import com.google.gwt.requestfactory.shared.ServerFailure;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.text.client.DoubleRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -128,59 +129,40 @@ public class ShipDetailsView extends Composite {
   }
 
   private void makePrices() {
-//    TextColumn<OrderProxy> id = new TextColumn<OrderProxy>() {
-//      public String getValue(OrderProxy orderProxy) {
-//        return orderProxy.getId();
-//      }
-//    };
-    TextColumn<OrderProxy> type = new TextColumn<OrderProxy>() {
+    prices.addColumn(new TextColumn<OrderProxy>() {
       public String getValue(OrderProxy orderProxy) {
         return "sell_orders".equals(orderProxy.getType()) ? "Sell" : "Buy";
       }
-    };
-    TextColumn<OrderProxy> station = new TextColumn<OrderProxy>() {
+    }, "Type");
+    prices.addColumn(new TextColumn<OrderProxy>() {
       public String getValue(OrderProxy orderProxy) {
         return orderProxy.getStationName();
       }
-    };
-    TextColumn<OrderProxy> range = new TextColumn<OrderProxy>() {
+    }, "Station Name");
+    prices.addColumn(new TextColumn<OrderProxy>() {
       public String getValue(OrderProxy orderProxy) {
         return orderProxy.getRange();
       }
-    };
-    TextColumn<OrderProxy> price = new TextColumn<OrderProxy>() {
+    }, "Range");
+    prices.addColumn(new TextColumn<OrderProxy>() {
       public String getValue(OrderProxy orderProxy) {
-        return orderProxy.getPrice();
+        return DoubleRenderer.instance().render(Double.parseDouble(orderProxy.getPrice()));
       }
-    };
-    TextColumn<OrderProxy> volRemain = new TextColumn<OrderProxy>() {
+    }, "Price");
+    prices.addColumn(new TextColumn<OrderProxy>() {
       public String getValue(OrderProxy orderProxy) {
         return orderProxy.getVolRemain();
       }
-    };
-    TextColumn<OrderProxy> minVolume = new TextColumn<OrderProxy>() {
-      public String getValue(OrderProxy orderProxy) {
-        return orderProxy.getMinVolume();
-      }
-    };
-    TextColumn<OrderProxy> expires = new TextColumn<OrderProxy>() {
+    }, "Remain");
+    prices.addColumn(new TextColumn<OrderProxy>() {
       public String getValue(OrderProxy orderProxy) {
         return orderProxy.getExpires();
       }
-    };
-    TextColumn<OrderProxy> reportedTime = new TextColumn<OrderProxy>() {
+    }, "Expires");
+    prices.addColumn(new TextColumn<OrderProxy>() {
       public String getValue(OrderProxy orderProxy) {
         return orderProxy.getReportedTime();
       }
-    };
-//    prices.addColumn(id, "Id");
-    prices.addColumn(type, "Type");
-    prices.addColumn(station, "Station Name");
-    prices.addColumn(range, "Range");
-    prices.addColumn(price, "Price");
-    prices.addColumn(volRemain, "Volume Remain");
-    prices.addColumn(minVolume, "Min Volume");
-    prices.addColumn(expires, "Expires");
-    prices.addColumn(reportedTime, "Reported Time");
+    }, "Reported Time");
   }
 }

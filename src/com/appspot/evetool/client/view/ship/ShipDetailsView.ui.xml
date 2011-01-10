@@ -23,7 +23,7 @@
     }
 
     .item fieldset {
-      width: 30%;
+      max-width: 300px;
       float: left;
       margin-left: 10px;
     }
